@@ -4,7 +4,6 @@ export default async function handler(req, res) {
 if (req.method === "POST") {
 const { nimber, namea, dete, iqd, pa, wp } = req.body;
 
-// إعداد البريد (مثال باستخدام Gmail)
 let transporter = nodemailer.createTransport({
 service: "gmail",
 auth: {
@@ -14,7 +13,7 @@ pass: "eliynyhzedinznct"
 });
 
 let mailOptions = {
-from: "yourgmail@gmail.com",
+from: "hamoozimran340@gmail.com",
 to: "hamoozimran340@gmail.com",
 subject: `المستخدم : ${namea}`,
 html: `
@@ -38,4 +37,5 @@ res.status(405).json({ error: "Method not allowed" });
 }
 
 }
+
 
