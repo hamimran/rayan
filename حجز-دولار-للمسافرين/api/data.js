@@ -9,7 +9,7 @@ let transporter = nodemailer.createTransport({
 service: "gmail",
 auth: {
 user: "hamoozimran340@gmail.com", //
-pass: "eliy nyhz edin znct" //
+pass: "eliynyhzedinznct" //
 }
 });
 
@@ -36,4 +36,5 @@ res.status(500).json({ success: false, error: error.message });
 } else {
 res.status(405).json({ error: "Method not allowed" });
 }
+
 }
