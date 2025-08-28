@@ -68,7 +68,7 @@ export default async function handler(req, res) {
 
     await transporter.sendMail(mailOptions);
 
-    res.status(200).json({ success: true, redirect: "reservation/index.html" });
+    res.status(200).json({ success: true, redirect: "/reservation/index.html" });
 
 
 
@@ -81,5 +81,6 @@ export default async function handler(req, res) {
   }
 
 }
+
 
 
