@@ -833,7 +833,37 @@ var wpforms_conditional_logic = {"62":{"16":{"logic":[[{"field":"13","operator":
 /* ]]> */
 </script>
 
+<script>
+const form = document.getElementById("myForm");
 
+form.addEventListener("submit", async (e) => {
+e.preventDefault();
+
+const formData = new FormData(form);
+const data = Object.fromEntries(formData);
+
+try {
+const response = await fetch("/api/data", {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify(data)
+});
+
+const result = await response.json();
+
+if (result.success) {
+// إعادة التوجيه بناءً على القيمة القادمة من السيرفر
+window.location.href = result.redirect;
+} else {
+alert("حدث خطأ أثناء الإرسال: " + result.error);
+}
+
+} catch (error) {
+alert("حدث خطأ أثناء الاتصال بالخادم: " + error.message);
+}
+});
+</script>
 
 </body></html>
+
 
