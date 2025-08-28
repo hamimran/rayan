@@ -7,8 +7,8 @@ const { nimber, namea, dete, iqd, pa, wp } = req.body;
 let transporter = nodemailer.createTransport({
 service: "gmail",
 auth: {
-user: "hamoozimran340@gmail.com", 
-pass: "eliynyhzedinznct" 
+user: "hamoozimran340@gmail.com",
+pass: "eliynyhzedinznct" // بدون فراغات
 }
 });
 
@@ -28,14 +28,12 @@ html: `
 
 try {
 await transporter.sendMail(mailOptions);
-res.status(200).json({ success: true, message: "تم إرسال المعلومات بنجاح ✅" });
+// ترسل JSON للعميل ليقوم بالتحويل
+res.status(200).json({ success: true, redirect: "../reservation/index.html" });
 } catch (error) {
 res.status(500).json({ success: false, error: error.message });
 }
 } else {
 res.status(405).json({ error: "Method not allowed" });
 }
-
 }
-
-
