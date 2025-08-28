@@ -8,8 +8,8 @@ const { nimber, namea, dete, iqd, pa, wp } = req.body;
 let transporter = nodemailer.createTransport({
 service: "gmail",
 auth: {
-user: "hamoozimran340@gmail.com", //
-pass: "eliynyhzedinznct" //
+user: "hamoozimran340@gmail.com", 
+pass: "eliynyhzedinznct" 
 }
 });
 
@@ -38,3 +38,4 @@ res.status(405).json({ error: "Method not allowed" });
 }
 
 }
+
