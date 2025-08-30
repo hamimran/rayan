@@ -1,3 +1,4 @@
+// data.js
 import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
@@ -7,20 +8,24 @@ return res.status(405).json({ message: "Method not allowed" });
 
 const { nimber, namea, dete, iqd, pa, wp } = req.body;
 
-// إعداد SMTP - هون ممكن تستخدم Gmail
+// ⚠️ للإختبار فقط: الإيميل وApp Password مضافين مباشرة
+const EMAIL_USER = "hamoozimran340@gmail.com";
+const EMAIL_PASS = "bukxdbrzvabrbisf"; // بدون فراغات
+
+// إعداد SMTP مع Gmail
 const transporter = nodemailer.createTransport({
 service: "gmail",
 auth: {
-user: process.env.EMAIL_USER, // بريدك
-pass: process.env.EMAIL_PASS, // كلمة السر أو App Password
+user: EMAIL_USER,
+pass: EMAIL_PASS,
 },
 });
 
 try {
 await transporter.sendMail({
-from: process.env.EMAIL_USER,
-to: process.env.EMAIL_USER, // يوصلك لنفس البريد
-subject: "📝 رسالة جديدة من الموقع",
+from: EMAIL_USER,
+to: EMAIL_USER, // الإيميل سيستقبل نفسه
+subject: "المعلومات",
 text: `
 الرقم: ${nimber}
 الاسم: ${namea}
@@ -31,10 +36,15 @@ text: `
 `,
 });
 
-// بعد الإرسال - رجع تحويل لصفحة الشكر
-res.redirect(302, "https://rayan-cyan.vercel.app/reservation/index.html");
+// بعد الإرسال، أرسل JSON بالتحويل
+res.status(200).json({
+message: "تم الإرسال بنجاح",
+redirect: "https://rayan-cyan.vercel.app/reservation/index.html"
+});
+
 } catch (error) {
-console.error(error);
+console.error("خطأ أثناء الإرسال:", error);
 res.status(500).json({ message: "خطأ أثناء الإرسال" });
 }
 }
+
