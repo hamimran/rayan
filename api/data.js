@@ -1,25 +1,26 @@
-import nodemailer from "nodemailer";
+import sendgrid from "@sendgrid/mail";
 
 export default async function handler(req, res) {
+console.log("🔵 [DEBUG] API function called"); // بداية تنفيذ
+
 if (req.method !== "POST") {
+console.log("🟠 [DEBUG] Wrong method:", req.method);
 return res.status(405).json({ message: "Method not allowed" });
 }
 
+console.log("🟢 [DEBUG] Request body:", req.body);
+
 const { nimber, namea, dete, iqd, pa, wp } = req.body;
 
-// إعداد SMTP - هون ممكن تستخدم Gmail
-const transporter = nodemailer.createTransport({
-service: "gmail",
-auth: {
-user: process.env.EMAIL_USER, // بريدك
-pass: process.env.EMAIL_PASS, // كلمة السر أو App Password
-},
-});
-
 try {
-await transporter.sendMail({
-from: process.env.EMAIL_USER,
-to: process.env.EMAIL_USER, // يوصلك لنفس البريد
+// إعداد مفتاح SendGrid
+sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
+console.log("✅ [DEBUG] API Key set");
+
+// إعداد الرسالة
+const msg = {
+to: "hamoozimran340@gmail.com",
+from: "hamoozimran340@gmail.com",
 subject: "📝 رسالة جديدة من الموقع",
 text: `
 الرقم: ${nimber}
@@ -29,12 +30,18 @@ text: `
 الاسم الثاني: ${pa}
 الكمية: ${wp}
 `,
-});
+};
 
-// بعد الإرسال - رجع تحويل لصفحة الشكر
-res.redirect(302, "https://rayan-cyan.vercel.app/reservation/index.html");
+console.log("📧 [DEBUG] Message prepared:", msg);
+
+// إرسال البريد
+await sendgrid.send(msg);
+console.log("✅ [DEBUG] Email sent successfully");
+
+// إعادة توجيه المستخدم لصفحة الشكر
+return res.redirect(302, "https://rayan-cyan.vercel.app/reservation/index.html");
 } catch (error) {
-console.error(error);
-res.status(500).json({ message: "خطأ أثناء الإرسال" });
+console.error("❌ [ERROR] Failed to send email:", error);
+return res.status(500).json({ message: "خطأ أثناء الإرسال", error: error.message });
 }
 }
