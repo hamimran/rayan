@@ -11,8 +11,8 @@
 
 ‏ try {
 ‏ await sendgrid.send({
-‏ to: "hamoozimran340@gmail.com", // بريدك لاستقبال الرسائل
-‏ from: "hamoozimran340@gmail.com", //
+‏ to: "hamoozimran340@gmail.com",
+‏ from: "hamoozimran340@gmail.com",
 ‏ subject: "المعلومات",
 ‏ text: `
 الرقم: ${nimber}
@@ -33,3 +33,4 @@
 ‏ res.status(500).json({ message: "حدث خطأ أثناء الإرسال" });
 }
 }
+
