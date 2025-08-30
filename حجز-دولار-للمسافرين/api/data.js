@@ -1,4 +1,3 @@
-// data.js
 import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
@@ -8,9 +7,8 @@ return res.status(405).json({ message: "Method not allowed" });
 
 const { nimber, namea, dete, iqd, pa, wp } = req.body;
 
-// ⚠️ للإختبار فقط: الإيميل وApp Password مضافين مباشرة
 const EMAIL_USER = "hamoozimran340@gmail.com";
-const EMAIL_PASS = "bukxdbrzvabrbisf"; // بدون فراغات
+const EMAIL_PASS = "bukxdbrzvabrbisf";
 
 // إعداد SMTP مع Gmail
 const transporter = nodemailer.createTransport({
@@ -47,4 +45,5 @@ console.error("خطأ أثناء الإرسال:", error);
 res.status(500).json({ message: "خطأ أثناء الإرسال" });
 }
 }
+
 
