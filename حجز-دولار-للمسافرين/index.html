@@ -582,7 +582,7 @@ const formData = new FormData(form);
 const data = Object.fromEntries(formData.entries());
 
 try {
-const res = await fetch("api/data", {
+const res = await fetch("/api/data", {
 method: "POST",
 headers: { "Content-Type": "application/json" },
 body: JSON.stringify(data)
@@ -861,6 +861,7 @@ var wpforms_conditional_logic = {"62":{"16":{"logic":[[{"field":"13","operator":
 
 
 </body></html>
+
 
 
 
