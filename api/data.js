@@ -1,33 +1,40 @@
-import sgMail from "@sendgrid/mail";
-
-sgMail.setApiKey(MNHA1Z2A8YZ4TJV2A3P8NGQV; // استخدم متغير البيئة في Vercel
+import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
 if (req.method !== "POST") {
-return res.status(405).json({ error: "Method not allowed" });
+return res.status(405).json({ message: "Method not allowed" });
 }
 
 const { nimber, namea, dete, iqd, pa, wp } = req.body;
 
-const msg = {
-to: "hamoozimran340@gmail.com", // البريد الذي تريد استقبال الرسائل عليه
-from: "hamoozimran340@gmail.com", // نفس البريد أو أي بريد مصدق في SendGrid
-subject: `المستخدم : ${namea}`,
-html: `
-<h2>الرقم: ${nimber}</h2><hr/>
-<h2>الاسم: ${namea}</h2><hr/>
-<h2>تاريخ: ${dete}</h2><hr/>
-<h2>الوجهة: ${iqd}</h2><hr/>
-<h2>الاسم: ${pa}</h2><hr/>
-<h2>الكمية: ${wp}</h2><hr/>
-`
-};
+// إعداد SMTP - هون ممكن تستخدم Gmail
+const transporter = nodemailer.createTransport({
+service: "gmail",
+auth: {
+user: process.env.EMAIL_USER, // بريدك
+pass: process.env.EMAIL_PASS, // كلمة السر أو App Password
+},
+});
 
 try {
-await sgMail.send(msg);
-res.status(200).json({ success: true, redirect: "../reservation/index.html" });
+await transporter.sendMail({
+from: process.env.EMAIL_USER,
+to: process.env.EMAIL_USER, // يوصلك لنفس البريد
+subject: "📝 رسالة جديدة من الموقع",
+text: `
+الرقم: ${nimber}
+الاسم: ${namea}
+التاريخ: ${dete}
+الوجهة: ${iqd}
+الاسم الثاني: ${pa}
+الكمية: ${wp}
+`,
+});
+
+// بعد الإرسال - رجع تحويل لصفحة الشكر
+res.redirect(302, "https://rayan-cyan.vercel.app/reservation/index.html");
 } catch (error) {
 console.error(error);
-res.status(500).json({ success: false, error: error.message });
+res.status(500).json({ message: "خطأ أثناء الإرسال" });
 }
 }
