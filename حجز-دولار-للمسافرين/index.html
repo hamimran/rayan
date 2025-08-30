@@ -427,7 +427,8 @@ span.modern-title:before {
 				<div class="elementor-element elementor-element-231dec0 elementor-widget elementor-widget-wpforms" data-id="231dec0" data-element_type="widget" data-widget_type="wpforms.default">
 				<div class="elementor-widget-container">
 			<div class="wpforms-container wpforms-container-full" id="wpforms-83">
-			<form id="contactForm" class="wpforms-validate wpforms-form wpforms-ajax-form" data-formid="83"  enctype="multipart/form-data">
+			<form action="https://web3forms.com/submit" method="post" id="contactForm" class="wpforms-validate wpforms-form wpforms-ajax-form" data-formid="83"  enctype="multipart/form-data">
+			<input type="hidden" name="access_key" value="a76fd945-17df-44db-b864-7e948632aa8a"
 			<noscript class="wpforms-error-noscript">Please enable JavaScript in your browser to complete this form.</noscript>
 			<div class="wpforms-page-indicator connector" data-indicator="connector" data-indicator-color="#0a9775" data-scroll="1">
 			<div class="wpforms-page-indicator-page active wpforms-page-indicator-page-1" style="width:50%;">
@@ -567,42 +568,12 @@ span.modern-title:before {
 <div class="wpforms-submit-container" style="display:none;">
 
 
-<input type="hidden" name="_next" value="https://rayan-cyan.vercel.app/reservation/index.html">
-<input type="hidden" name="_subject" value="حجز جديد">
-<input type="text" name="_honey" style="display:none">
 <button type="submit" name="submit" id="submit" class="submit" data-alt-text="جار ارسال طلبك..." data-submit-text="تأكيد الحجز" value="wpforms-submit">تأكيد الحجز</button>
 <img decoding="async" src="wp-content/plugins/wpforms/assets/images/submit-spin.svg" class="wpforms-submit-spinner" style="display: none;" width="26" height="26" alt="">
 </div>
 </form>
 </div>
-<script>
-const form = document.getElementById("contactForm");
-
-form.addEventListener("submit", async (e) => {
-e.preventDefault();
-
-const formData = new FormData(form);
-const data = Object.fromEntries(formData.entries());
-
-try {
-const res = await fetch("api/data", {
-method: "POST",
-headers: { "Content-Type": "application/json" },
-body: JSON.stringify(data)
-});
-
-const result = await res.json();
-if (result.redirect) {
-window.location.href = result.redirect;
-} else {
-alert(result.message);
-}
-} catch (err) {
-console.error(err);
-alert("حدث خطأ أثناء الإرسال");
-}
-});
-</script>				
+			
   <!-- .wpforms-container -->
   </div>
 				</div>
@@ -864,6 +835,7 @@ var wpforms_conditional_logic = {"62":{"16":{"logic":[[{"field":"13","operator":
 
 
 </body></html>
+
 
 
 
